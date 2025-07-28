@@ -13,36 +13,78 @@
     <link rel="icon" href="https://placehold.co/32x32/1a1a1a/FFFFFF?text=CNC" type="image/png" onerror="this.onerror=null;this.src='https://placehold.co/32x32';">
 
     <style>
-        /* Default Font & New Fixed Background */
+        /* --- FONT & BACKGROUND --- */
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0A0A0A; /* Fallback color */
+            background-color: #0A0A0A;
             color: #e5e7eb;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            
-            background-image: linear-gradient(rgba(10, 10, 10, 0.92), rgba(10, 10, 10, 0.92)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3');
+            background-image: linear-gradient(rgba(10, 10, 10, 0.95), rgba(10, 10, 10, 0.95)), url('https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3');
             background-attachment: fixed;
             background-position: center;
             background-size: cover;
         }
 
+        /* --- PRELOADER --- */
+        #preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #0A0A0A;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            transition: opacity 0.7s ease-in-out, visibility 0.7s ease-in-out;
+            opacity: 1;
+            visibility: visible;
+        }
+        #preloader.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .preloader-logo {
+            display: flex;
+            gap: 0.5rem;
+            perspective: 500px;
+        }
+        .preloader-logo span {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+            animation: flip 3s ease-in-out forwards;
+            transform-style: preserve-3d;
+            opacity: 0;
+        }
+        .preloader-logo span:nth-child(1) { animation-delay: 0.2s; }
+        .preloader-logo span:nth-child(2) { animation-delay: 0.4s; }
+        .preloader-logo span:nth-child(3) { animation-delay: 0.6s; }
+
+        @keyframes flip {
+            0% { transform: rotateY(180deg) scale(0.5); opacity: 0; }
+            40% { transform: rotateY(0deg) scale(1.1); opacity: 1; }
+            60% { transform: rotateY(0deg) scale(1); opacity: 1; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
         /* --- DYNAMIC EFFECTS --- */
-        .aurora-background { position: relative; }
         .aurora-background::before {
             content: '';
-            position: fixed; /* Fixed position to cover viewport */
+            position: fixed;
             top: 50%; left: 50%;
             width: 200vw; height: 200vh;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(10, 10, 10, 0) 50%);
+            background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(10, 10, 10, 0) 45%);
             transform: translate(-50%, -50%);
             animation: aurora 20s infinite linear;
-            z-index: -1;
+            z-index: -2;
             pointer-events: none;
         }
         @keyframes aurora {
-            0% { transform: translate(-50%, -50%) rotate(0deg); }
-            100% { transform: translate(-50%, -50%) rotate(360deg); }
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
         #home { position: relative; overflow: hidden; }
@@ -50,9 +92,10 @@
             content: '';
             position: absolute;
             top: 0; left: 0; right: 0; bottom: 0;
-            background: radial-gradient(circle 400px at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.08), transparent 80%);
+            background: radial-gradient(circle 500px at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.06), transparent 80%);
             pointer-events: none;
             transition: background 0.2s ease-out;
+            z-index: 1;
         }
 
         .text-gradient {
@@ -61,42 +104,33 @@
             -webkit-text-fill-color: transparent;
         }
         
-        /* Subtle text shadow for hero title to add depth */
         .hero-text-shadow {
-             text-shadow: 0px 4px 15px rgba(0, 0, 0, 0.3);
+             text-shadow: 0px 5px 25px rgba(0, 0, 0, 0.5);
         }
 
-        .card-3d {
+        /* --- SUPER PREMIUM "BUBBLY" 3D CARD STYLE --- */
+        .premium-card {
+            background: rgba(16, 21, 39, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
             transition: transform 0.4s ease, box-shadow 0.4s ease;
             transform-style: preserve-3d;
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05), 
+                        0 15px 30px rgba(0, 0, 0, 0.5);
         }
-        .card-3d:hover {
-            transform: perspective(1000px) rotateY(var(--rotate-y, 0)) rotateX(var(--rotate-x, 0)) scale3d(1.05, 1.05, 1.05);
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        .premium-card:hover {
+            transform: perspective(1200px) rotateY(var(--rotate-y, 0)) rotateX(var(--rotate-x, 0)) scale3d(1.05, 1.05, 1.05);
+            box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1),
+                        0 25px 50px -12px rgba(59, 130, 246, 0.25);
+            border-color: rgba(59, 130, 246, 0.5);
         }
-
-        .gradient-border {
-            position: relative;
-            background: #111827; /* Card background */
-            background-clip: padding-box;
-            border: 2px solid transparent;
-        }
-        .gradient-border::before {
-            content: '';
-            position: absolute;
-            top: 0; right: 0; bottom: 0; left: 0;
-            z-index: -1; margin: -2px;
-            border-radius: inherit;
-            background: linear-gradient(145deg, rgba(59, 130, 246, 0.5), rgba(59, 130, 246, 0.1));
-            opacity: 0;
-            transition: opacity 0.3s ease-in-out;
-        }
-        .gradient-border:hover::before { opacity: 1; }
         
         .scroll-animate {
             opacity: 0;
-            transform: translateY(30px);
-            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+            transform: translateY(40px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
         .scroll-animate.is-visible {
             opacity: 1;
@@ -105,23 +139,28 @@
 
         /* --- STATIC STYLING --- */
         .hero-gradient {
-            background: linear-gradient(to top, #0A0A0A 8%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0.5) 75%), var(--bg-image);
+            background: linear-gradient(to top, #0A0A0A 10%, rgba(10, 10, 10, 0.7) 50%, rgba(10, 10, 10, 0) 75%), var(--bg-image);
             background-size: cover;
             background-position: center;
         }
         .cta-glow {
-            box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 8px rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.7);
+            transition: all 0.3s ease;
+        }
+        .cta-glow:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 35px rgba(59, 130, 246, 0.7), 0 0 15px rgba(59, 130, 246, 0.9);
         }
         .recommended-card {
-            transform: scale(1.05);
             border-color: #3b82f6;
+            transform: scale(1.05);
         }
         .aspect-9-16 { position: relative; padding-top: 177.77%; }
         .aspect-9-16 > * { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
         
         .lang-switcher .lang-option {
             cursor: pointer;
-            transition: transform 0.2s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
         .lang-switcher .lang-option:hover {
             transform: scale(1.1);
@@ -129,49 +168,52 @@
         .lang-switcher .lang-option.active {
             border: 2px solid #3b82f6;
             transform: scale(1.1);
+            box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
         }
-        section {
-            background-color: transparent;
-        }
-
-        /* PERBAIKAN: Menghilangkan garis bawah pada semua judul seksi */
         section h2 {
             border-bottom: none !important;
             text-decoration: none !important;
         }
 
-        /* Faster pulsating animation for the mobile menu icon */
         .pulsating-menu {
-            animation: pulsate 0.5s infinite ease-in-out;
+            animation: pulsate 1.5s infinite ease-in-out;
             border-radius: 50%;
         }
         @keyframes pulsate {
-            0% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(59, 130, 246, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(59, 130, 246, 0);
-            }
+            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
         }
 
         /* --- SCHEDULE STYLES --- */
         .filter-btn {
-            transition: all 0.2s ease-in-out;
+            transition: all 0.3s ease-in-out;
+            border: 1px solid rgba(255,255,255,0.2);
+            background-color: rgba(255,255,255,0.05);
+        }
+        .filter-btn:hover {
+            background-color: rgba(59, 130, 246, 0.2);
+            border-color: rgba(59, 130, 246, 0.5);
         }
         .filter-btn.active {
             background-color: #3b82f6;
             color: #ffffff;
             border-color: #3b82f6;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
         }
         .schedule-item {
-            transition: opacity 0.3s ease, transform 0.3s ease;
+            transition: opacity 0.5s ease, transform 0.5s ease;
         }
     </style>
 </head>
 <body class="antialiased aurora-background pb-24 lg:pb-0">
+
+    <!-- Preloader -->
+    <div id="preloader">
+        <div class="preloader-logo">
+            <span>C</span><span>N</span><span>C</span>
+        </div>
+    </div>
 
     <!-- Header -->
     <header id="header" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-black/30 backdrop-blur-md border-b border-white/10">
@@ -179,7 +221,6 @@
             <div class="flex justify-between items-center py-4">
                 <div class="flex-1 flex justify-start">
                     <a href="#home">
-                        <!-- PERBAIKAN: Logo diperbesar untuk PC dan mobile -->
                         <img src="https://brandeps.com/logo-download/C/CNC-Fitness-logo-vector-01.svg" alt="CNC Fitness Logo" class="h-12 lg:h-14 w-auto">
                     </a>
                 </div>
@@ -200,7 +241,6 @@
                 <!-- Header Controls: Language, CTA, Mobile Menu -->
                 <div class="flex-1 flex justify-end items-center">
                     <div class="flex items-center space-x-3 sm:space-x-4">
-                        <!-- PERBAIKAN: Kelas 'hidden' dihapus agar language switcher muncul di mobile -->
                         <div class="lang-switcher flex items-center space-x-2">
                             <img id="lang-id" src="https://flagcdn.com/id.svg" width="24" alt="Bahasa Indonesia" class="lang-option rounded-sm" title="Bahasa Indonesia" onerror="this.onerror=null;this.src='https://placehold.co/24x16';">
                             <img id="lang-en" src="https://flagcdn.com/gb.svg" width="24" alt="English" class="lang-option rounded-sm" title="English" onerror="this.onerror=null;this.src='https://placehold.co/24x16';">
@@ -241,7 +281,7 @@
                     CNC Fitness BSB menyediakan fasilitas premium, pelatih ahli, dan komunitas yang mendukung untuk membantu Anda meraih hasil nyata.
                 </p>
                 <div class="mt-10">
-                    <a href="#membership" class="bg-blue-600 text-white font-bold text-base sm:text-lg px-8 py-3 sm:px-10 sm:py-4 rounded-lg hover:bg-blue-500 transition-all duration-300 inline-block cta-glow" data-lang-key="heroCTA">
+                    <a href="#membership" class="bg-blue-600 text-white font-bold text-base sm:text-lg px-8 py-3 sm:px-10 sm:py-4 rounded-lg hover:bg-blue-500 inline-block cta-glow" data-lang-key="heroCTA">
                         Lihat Paket Membership
                     </a>
                 </div>
@@ -256,9 +296,8 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="whyUsSubtitle">Kami menyediakan semua yang Anda butuhkan untuk mendukung perjalanan kebugaran Anda.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
-                    <div class="p-6 sm:p-8 rounded-xl gradient-border card-3d scroll-animate" style="transition-delay: 100ms;">
+                    <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 100ms;">
                         <div class="text-blue-400 mb-4">
-                            <!-- PERBAIKAN: Ikon diganti menjadi barbel -->
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h2m16 0h2M5 12h14" />
                               <path stroke-linecap="round" stroke-linejoin="round" d="M5 7v10h2V7H5zm12 0v10h2V7h-2z" />
@@ -267,21 +306,21 @@
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature1Title">Peralatan Terbaik</h3>
                         <p class="text-gray-400" data-lang-key="feature1Desc">Akses ke peralatan fitness modern untuk latihan yang lebih efektif dan terukur.</p>
                     </div>
-                    <div class="p-6 sm:p-8 rounded-xl gradient-border card-3d scroll-animate" style="transition-delay: 200ms;">
+                    <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 200ms;">
                         <div class="text-blue-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature2Title">Pelatih Profesional</h3>
                         <p class="text-gray-400" data-lang-key="feature2Desc">Dapatkan panduan dari tim pelatih bersertifikasi untuk program latihan yang aman dan personal.</p>
                     </div>
-                    <div class="p-6 sm:p-8 rounded-xl gradient-border card-3d scroll-animate" style="transition-delay: 300ms;">
+                    <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 300ms;">
                         <div class="text-blue-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 13-2.5 2.5a4.24 4.24 0 0 1-6 0L7 13l-2.5 2.5a4.24 4.24 0 0 0 6 0L13 13l2.5-2.5a4.24 4.24 0 0 1 6 0L19 13l2.5-2.5a4.24 4.24 0 0 0-6 0L13 13"></path></svg>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature3Title">Kelas Beragam</h3>
                         <p class="text-gray-400" data-lang-key="feature3Desc">Jaga motivasi Anda dengan berbagai pilihan kelas, dari Yoga hingga HIIT yang intens.</p>
                     </div>
-                    <div class="p-6 sm:p-8 rounded-xl gradient-border card-3d scroll-animate" style="transition-delay: 400ms;">
+                    <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 400ms;">
                         <div class="text-blue-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                         </div>
@@ -300,44 +339,36 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="trainersSubtitle">Berlatih lebih cerdas dengan bimbingan dari para ahli kebugaran.</p>
                 </div>
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10">
-                    <div class="rounded-xl overflow-hidden text-center group card-3d scroll-animate" style="transition-delay: 100ms;">
-                        <div class="gradient-border rounded-xl">
-                            <img src="https://placehold.co/400x500/3b82f6/FFFFFF?text=Foto+Pelatih+1" alt="Pelatih Profesional CNC Fitness 1" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
-                            <div class="p-6">
-                                <h3 class="text-2xl font-bold text-white" data-lang-key="trainer1Name">Andi Setiawan</h3>
-                                <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer1Spec">Kekuatan & Kondisi</p>
-                                <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer1Desc">Ahli merancang program kekuatan untuk meningkatkan performa dan membentuk postur ideal.</p>
-                            </div>
+                    <div class="text-center group premium-card overflow-hidden scroll-animate" style="transition-delay: 100ms;">
+                        <img src="https://images.unsplash.com/photo-1548690312-e3b511d48c8e?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 1" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-white" data-lang-key="trainer1Name">Andi Setiawan</h3>
+                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer1Spec">Kekuatan & Kondisi</p>
+                            <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer1Desc">Ahli merancang program kekuatan untuk meningkatkan performa dan membentuk postur ideal.</p>
                         </div>
                     </div>
-                    <div class="rounded-xl overflow-hidden text-center group card-3d scroll-animate" style="transition-delay: 200ms;">
-                        <div class="gradient-border rounded-xl">
-                            <img src="https://placehold.co/400x500/111827/FFFFFF?text=Foto+Pelatih+2" alt="Pelatih Profesional CNC Fitness 2" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
-                            <div class="p-6">
-                                <h3 class="text-2xl font-bold text-white" data-lang-key="trainer2Name">Citra Amelia</h3>
-                                <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer2Spec">Penurunan Berat Badan & Nutrisi</p>
-                                <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer2Desc">Memadukan latihan efektif dengan panduan nutrisi untuk membantu Anda mencapai berat badan ideal.</p>
-                            </div>
+                    <div class="text-center group premium-card overflow-hidden scroll-animate" style="transition-delay: 200ms;">
+                        <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 2" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-white" data-lang-key="trainer2Name">Citra Amelia</h3>
+                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer2Spec">Penurunan Berat Badan & Nutrisi</p>
+                            <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer2Desc">Memadukan latihan efektif dengan panduan nutrisi untuk membantu Anda mencapai berat badan ideal.</p>
                         </div>
                     </div>
-                    <div class="rounded-xl overflow-hidden text-center group card-3d scroll-animate" style="transition-delay: 300ms;">
-                        <div class="gradient-border rounded-xl">
-                            <img src="https://placehold.co/400x500/3b82f6/FFFFFF?text=Foto+Pelatih+3" alt="Pelatih Profesional CNC Fitness 3" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
-                            <div class="p-6">
-                                <h3 class="text-2xl font-bold text-white" data-lang-key="trainer3Name">David Lee</h3>
-                                <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer3Spec">Fungsional & Mobilitas</p>
-                                <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer3Desc">Spesialis latihan fungsional untuk meningkatkan mobilitas dan kekuatan untuk aktivitas sehari-hari.</p>
-                            </div>
+                    <div class="text-center group premium-card overflow-hidden scroll-animate" style="transition-delay: 300ms;">
+                        <img src="https://images.unsplash.com/photo-1594737625787-a8a121c44856?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 3" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-white" data-lang-key="trainer3Name">David Lee</h3>
+                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer3Spec">Fungsional & Mobilitas</p>
+                            <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer3Desc">Spesialis latihan fungsional untuk meningkatkan mobilitas dan kekuatan untuk aktivitas sehari-hari.</p>
                         </div>
                     </div>
-                    <div class="rounded-xl overflow-hidden text-center group card-3d scroll-animate" style="transition-delay: 400ms;">
-                        <div class="gradient-border rounded-xl">
-                            <img src="https://placehold.co/400x500/111827/FFFFFF?text=Foto+Pelatih+4" alt="Pelatih Profesional CNC Fitness 4" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-xl" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
-                            <div class="p-6">
-                                <h3 class="text-2xl font-bold text-white" data-lang-key="trainer4Name">Sari Wulandari</h3>
-                                <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer4Spec">Yoga & Fleksibilitas</p>
-                                <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer4Desc">Membantu Anda menemukan ketenangan dan meningkatkan kelenturan tubuh melalui yoga.</p>
-                            </div>
+                    <div class="text-center group premium-card overflow-hidden scroll-animate" style="transition-delay: 400ms;">
+                        <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 4" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
+                        <div class="p-6">
+                            <h3 class="text-2xl font-bold text-white" data-lang-key="trainer4Name">Sari Wulandari</h3>
+                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer4Spec">Yoga & Fleksibilitas</p>
+                            <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer4Desc">Membantu Anda menemukan ketenangan dan meningkatkan kelenturan tubuh melalui yoga.</p>
                         </div>
                     </div>
                 </div>
@@ -352,8 +383,7 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="testimonialsSubtitle">Kisah sukses nyata dari para member kami yang luar biasa.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    <!-- Testimonial Card 1 -->
-                    <div class="p-8 rounded-xl gradient-border card-3d scroll-animate flex flex-col" style="transition-delay: 100ms;">
+                    <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 100ms;">
                         <div class="flex-grow">
                             <div class="flex items-center mb-4">
                                 <img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=A" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 1" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
@@ -366,15 +396,13 @@
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                     </div>
-                                    <!-- PERBAIKAN: Tanggal ditambahkan -->
                                     <p class="text-xs text-gray-500 mt-2" data-lang-key="testi1Date"></p>
                                 </div>
                             </div>
                             <p class="text-gray-300 italic" data-lang-key="testi1Quote">"Fasilitasnya luar biasa dan para pelatihnya sangat profesional. Saya berhasil mencapai target berat badan saya dalam 3 bulan. Sangat direkomendasikan!"</p>
                         </div>
                     </div>
-                    <!-- Testimonial Card 2 -->
-                    <div class="p-8 rounded-xl gradient-border card-3d scroll-animate flex flex-col" style="transition-delay: 200ms;">
+                    <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 200ms;">
                        <div class="flex-grow">
                             <div class="flex items-center mb-4">
                                 <img src="https://placehold.co/64x64/111827/FFFFFF?text=S" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 2" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
@@ -387,15 +415,13 @@
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                     </div>
-                                    <!-- PERBAIKAN: Tanggal ditambahkan -->
                                     <p class="text-xs text-gray-500 mt-2" data-lang-key="testi2Date"></p>
                                 </div>
                             </div>
                             <p class="text-gray-300 italic" data-lang-key="testi2Quote">"Kelas Yoga di sini adalah yang terbaik di Balikpapan. Instrukturnya sabar dan lingkungannya sangat mendukung. Saya merasa lebih bugar dan tenang."</p>
                         </div>
                     </div>
-                    <!-- Testimonial Card 3 -->
-                    <div class="p-8 rounded-xl gradient-border card-3d scroll-animate flex flex-col" style="transition-delay: 300ms;">
+                    <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 300ms;">
                         <div class="flex-grow">
                             <div class="flex items-center mb-4">
                                 <img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=B" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 3" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
@@ -408,7 +434,6 @@
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
                                     </div>
-                                    <!-- PERBAIKAN: Tanggal ditambahkan -->
                                     <p class="text-xs text-gray-500 mt-2" data-lang-key="testi3Date"></p>
                                 </div>
                             </div>
@@ -427,12 +452,12 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="gallerySubtitle">Lihat lebih dekat suasana dan fasilitas kami.</p>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-4">
-                    <div class="group scroll-animate"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/111827/FFFFFF?text=Suasana+Latihan" alt="Suasana latihan di CNC Fitness" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 100ms;"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/3b82f6/FFFFFF?text=Sesi+Personal+Trainer" alt="Sesi Personal Trainer" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 200ms;"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/111827/FFFFFF?text=Kelas+Zumba" alt="Kelas Zumba yang energik" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 300ms;"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/3b82f6/FFFFFF?text=Area+Angkat+Beban" alt="Area angkat beban yang lengkap" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 400ms;"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/111827/FFFFFF?text=Detail+Fasilitas" alt="Detail fasilitas premium" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 500ms;"><img class="h-auto w-full rounded-lg object-cover group-hover:scale-105 transition-transform duration-300" src="https://placehold.co/800x600/3b82f6/FFFFFF?text=Komunitas+Member" alt="Komunitas member CNC Fitness" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1571902943202-507ec2618e8f?q=80&w=1000&auto=format&fit=crop" alt="Suasana latihan di CNC Fitness" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 100ms;"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1546412414-e1440e0f035c?q=80&w=1000&auto=format&fit=crop" alt="Sesi Personal Trainer" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 200ms;"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?q=80&w=1000&auto=format&fit=crop" alt="Kelas Zumba yang energik" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 300ms;"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?q=80&w=1000&auto=format&fit=crop" alt="Area angkat beban yang lengkap" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 400ms;"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1554344728-77cf90d922a2?q=80&w=1000&auto=format&fit=crop" alt="Detail fasilitas premium" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 500ms;"><img class="h-auto w-full object-cover group-hover:scale-105 transition-transform duration-300" src="https://images.unsplash.com/photo-1526506118085-60ce8714f8c5?q=80&w=1000&auto=format&fit=crop" alt="Komunitas member CNC Fitness" onerror="this.onerror=null;this.src='https://placehold.co/800x600';"></div>
                 </div>
             </div>
         </section>
@@ -445,12 +470,12 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="equipmentSubtitle">Peralatan modern dan lengkap untuk setiap kebutuhan latihan Anda.</p>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="group scroll-animate"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Cardio+Line" alt="Cardio Line" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 100ms;"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Dumbbell+Rack" alt="Dumbbell Rack" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 200ms;"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Smith+Machine" alt="Smith Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 300ms;"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Functional+Area" alt="Functional Area" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 400ms;"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Leg+Press+Machine" alt="Leg Press Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate" style="transition-delay: 500ms;"><img class="h-auto w-full rounded-lg object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Cable+Crossover" alt="Cable Crossover" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Cardio+Line" alt="Cardio Line" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 100ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Dumbbell+Rack" alt="Dumbbell Rack" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 200ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Smith+Machine" alt="Smith Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 300ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Functional+Area" alt="Functional Area" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 400ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Leg+Press+Machine" alt="Leg Press Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 500ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Cable+Crossover" alt="Cable Crossover" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
                 </div>
             </div>
         </section>
@@ -463,13 +488,13 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="reelsSubtitle">Lihat energi dan komunitas kami melalui Reels terbaru di Instagram.</p>
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 100ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+1" alt="Instagram Reel 1" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 200ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+2" alt="Instagram Reel 2" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 300ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+3" alt="Instagram Reel 3" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 400ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+4" alt="Instagram Reel 4" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 100ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+1" alt="Instagram Reel 1" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 200ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+2" alt="Instagram Reel 2" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 300ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+3" alt="Instagram Reel 3" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 400ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+4" alt="Instagram Reel 4" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
                 </div>
                  <div class="text-center mt-12 scroll-animate">
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-500 transition-all duration-300" data-lang-key="reelsCTA">
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-500 transition-all duration-300 cta-glow" data-lang-key="reelsCTA">
                         Lihat Semua Reels
                     </a>
                 </div>
@@ -485,16 +510,16 @@
                 </div>
                 
                 <div id="schedule-filters" class="flex flex-wrap justify-center items-center gap-2 sm:gap-3 mb-10 scroll-animate">
-                    <button class="filter-btn active border border-blue-500 px-4 py-2 rounded-full text-sm font-semibold" data-filter="all" data-lang-key="filterAll">Semua</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="senin" data-lang-key="filterMonday">Senin</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="selasa" data-lang-key="filterTuesday">Selasa</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="rabu" data-lang-key="filterWednesday">Rabu</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="kamis" data-lang-key="filterThursday">Kamis</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="jumat" data-lang-key="filterFriday">Jumat</button>
+                    <button class="filter-btn active px-4 py-2 rounded-full text-sm font-semibold" data-filter="all" data-lang-key="filterAll">Semua</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="senin" data-lang-key="filterMonday">Senin</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="selasa" data-lang-key="filterTuesday">Selasa</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="rabu" data-lang-key="filterWednesday">Rabu</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="kamis" data-lang-key="filterThursday">Kamis</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="jumat" data-lang-key="filterFriday">Jumat</button>
                     <span class="w-full sm:w-auto text-center my-2 sm:my-0 text-gray-500 mx-2">|</span>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="yoga" data-lang-key="filterYoga">Yoga</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="hiit" data-lang-key="filterHiit">HIIT</button>
-                    <button class="filter-btn border border-gray-600 text-gray-300 hover:bg-gray-700 px-4 py-2 rounded-full text-sm font-semibold" data-filter="strength" data-lang-key="filterStrength">Strength</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="yoga" data-lang-key="filterYoga">Yoga</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="hiit" data-lang-key="filterHiit">HIIT</button>
+                    <button class="filter-btn px-4 py-2 rounded-full text-sm font-semibold" data-filter="strength" data-lang-key="filterStrength">Strength</button>
                 </div>
 
                 <div id="schedule-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -511,7 +536,7 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="membershipSubtitle">Pilih paket yang paling sesuai dengan gaya hidup dan tujuan Anda. Komitmen kami adalah transparansi penuh.</p>
                 </div>
                 <div class="flex flex-wrap justify-center items-stretch gap-8">
-                    <div class="w-full max-w-sm p-6 sm:p-8 rounded-xl transition-all duration-300 card-3d gradient-border scroll-animate flex flex-col" style="transition-delay: 100ms;">
+                    <div class="w-full max-w-sm premium-card p-6 sm:p-8 scroll-animate flex flex-col" style="transition-delay: 100ms;">
                         <div class="flex-grow">
                             <h3 class="text-xl font-semibold text-white" data-lang-key="plan1Title">1 Bulan</h3>
                             <p class="mt-1 text-gray-400" data-lang-key="plan1Subtitle">Fleksibel & Cepat</p>
@@ -525,7 +550,7 @@
                         <a href="#" data-wa-key="plan1" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors" data-lang-key="planCTA">Pilih Paket</a>
                     </div>
 
-                    <div class="w-full max-w-sm p-6 sm:p-8 rounded-xl transition-all duration-300 relative card-3d gradient-border recommended-card scroll-animate flex flex-col" style="transition-delay: 200ms;">
+                    <div class="w-full max-w-sm premium-card p-6 sm:p-8 relative recommended-card scroll-animate flex flex-col" style="transition-delay: 200ms;">
                         <div class="flex-grow">
                             <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full" data-lang-key="planPopular">Paling Populer</span>
                             <h3 class="text-xl font-semibold text-white" data-lang-key="plan2Title">6 Bulan</h3>
@@ -538,10 +563,10 @@
                                 <li class="flex items-center font-bold" data-lang-key="plan2Feature3"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Analisa Komposisi Tubuh</li>
                             </ul>
                         </div>
-                        <a href="#" data-wa-key="plan2" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 transition-colors" data-lang-key="planCTA">Pilih Paket</a>
+                        <a href="#" data-wa-key="plan2" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 transition-colors cta-glow" data-lang-key="planCTA">Pilih Paket</a>
                     </div>
 
-                    <div class="w-full max-w-sm p-6 sm:p-8 rounded-xl transition-all duration-300 card-3d gradient-border scroll-animate flex flex-col" style="transition-delay: 300ms;">
+                    <div class="w-full max-w-sm premium-card p-6 sm:p-8 scroll-animate flex flex-col" style="transition-delay: 300ms;">
                         <div class="flex-grow">
                             <h3 class="text-xl font-semibold text-white" data-lang-key="plan3Title">12 Bulan</h3>
                             <p class="mt-1 text-gray-400" data-lang-key="plan3Subtitle">Transformasi Total</p>
@@ -564,7 +589,7 @@
             <div class="container mx-auto px-4 sm:px-6 py-16 text-center scroll-animate">
                 <h2 class="text-3xl font-bold text-white" data-lang-key="trialTitle">Siap Memulai Perjalanan Anda?</h2>
                 <p class="mt-2 text-blue-100 max-w-xl mx-auto" data-lang-key="trialSubtitle">Dapatkan <span class="font-bold">Free Trial 1 Hari</span> untuk merasakan sendiri pengalaman premium di CNC Fitness. Klaim sekarang!</p>
-                <a href="#" data-wa-key="trial" target="_blank" rel="noopener noreferrer" class="mt-6 inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors" data-lang-key="trialCTA">Klaim Free Trial via WhatsApp</a>
+                <a href="#" data-wa-key="trial" target="_blank" rel="noopener noreferrer" class="mt-6 inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors cta-glow" data-lang-key="trialCTA">Klaim Free Trial via WhatsApp</a>
             </div>
         </section>
 
@@ -593,7 +618,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- Updated Map: Replaced image with interactive iframe -->
                 <div class="rounded-lg overflow-hidden shadow-2xl h-80 md:h-full">
                     <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3988.832239474158!2d116.8546503153941!3d-1.274174099071031!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df1477c9597a235%3A0x6e1c3669972cd63f!2sCNC%20Fitness%20Pentacity!5e0!3m2!1sen!2sid!4v1678886453215!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade" class="w-full h-full"></iframe>
                 </div>
@@ -632,13 +656,20 @@
 
     <!-- Mobile CTA Bar -->
     <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm p-3 border-t border-gray-700 z-40" style="transform: translateZ(0);">
-        <a href="#membership" class="w-full block text-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300" data-lang-key="joinNow">
+        <a href="#membership" class="w-full block text-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 cta-glow" data-lang-key="joinNow">
             Gabung Sekarang
         </a>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            // --- PRELOADER SCRIPT ---
+            const preloader = document.getElementById('preloader');
+            // Set a timeout to hide the preloader after 3 seconds
+            setTimeout(() => {
+                preloader.classList.add('hidden');
+            }, 3000);
+
             // --- LANGUAGE & CONTENT DATA ---
             const langData = {
                 id: {
@@ -742,10 +773,7 @@
             const phoneNumber = '6282191562827';
 
             function changeLanguage(lang) {
-                // Set language attribute for the whole document
                 document.documentElement.lang = lang;
-                
-                // Update all text elements with data-lang-key
                 document.querySelectorAll('[data-lang-key]').forEach(el => {
                     const key = el.dataset.langKey;
                     if (langData[lang][key]) {
@@ -753,7 +781,6 @@
                     }
                 });
                 
-                // Update active state for language switcher flags
                 if (lang === 'id') {
                     langIdBtn.classList.add('active');
                     langEnBtn.classList.remove('active');
@@ -762,7 +789,6 @@
                     langIdBtn.classList.remove('active');
                 }
                 
-                // Update all WhatsApp links with the correct message for the selected language
                 document.querySelectorAll('a[data-wa-key]').forEach(link => {
                     const key = link.dataset.waKey;
                     let messageKey;
@@ -778,7 +804,6 @@
                     }
                 });
                 
-                // Re-render the schedule with the new language
                 const activeFilter = document.querySelector('#schedule-filters .filter-btn.active');
                 if (activeFilter) {
                     renderSchedule(activeFilter.dataset.filter, lang);
@@ -796,15 +821,15 @@
                 heroSection.style.setProperty('--y', `${e.clientY - rect.top}px`);
             });
 
-            const cards = document.querySelectorAll('.card-3d');
+            const cards = document.querySelectorAll('.premium-card');
             cards.forEach(card => {
                 card.addEventListener('mousemove', e => {
                     const rect = card.getBoundingClientRect();
                     const { width, height, left, top } = rect;
                     const x = e.clientX - left;
                     const y = e.clientY - top;
-                    const rotateX = (y / height - 0.5) * -15;
-                    const rotateY = (x / width - 0.5) * 15;
+                    const rotateX = (y / height - 0.5) * -10; // Reduced rotation for subtlety
+                    const rotateY = (x / width - 0.5) * 10;
                     card.style.setProperty('--rotate-x', `${rotateX}deg`);
                     card.style.setProperty('--rotate-y', `${rotateY}deg`);
                 });
@@ -820,7 +845,7 @@
                         entry.target.classList.add('is-visible');
                     }
                 });
-            }, { threshold: 0.1 });
+            }, { threshold: 0.15 });
 
             document.querySelectorAll('.scroll-animate').forEach(el => observer.observe(el));
 
@@ -838,7 +863,6 @@
                 });
             });
 
-            // FIX: Use a more specific selector to avoid targeting javascript/external links.
             document.querySelectorAll('a[href^="#"]:not([href="#"])').forEach(anchor => {
                 anchor.addEventListener('click', function (e) {
                     e.preventDefault();
@@ -906,7 +930,7 @@
                     const waLink = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${waMessage}`;
 
                     const div = document.createElement('div');
-                    div.className = 'schedule-item flex flex-col justify-between p-6 rounded-xl gradient-border';
+                    div.className = 'schedule-item flex flex-col justify-between p-6 premium-card';
                     div.innerHTML = `
                         <div>
                             <div class="flex justify-between items-start mb-4">
@@ -921,7 +945,7 @@
                                 <span class="text-xs font-bold uppercase py-1 px-3 rounded-full bg-gray-700 text-gray-200">${item.type}</span>
                             </div>
                         </div>
-                        <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-500 transition-colors">
+                        <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-500 transition-colors cta-glow">
                             ${registerText}
                         </a>
                     `;
@@ -931,12 +955,8 @@
 
             filterButtons.forEach(button => {
                 button.addEventListener('click', () => {
-                    filterButtons.forEach(btn => {
-                        btn.classList.remove('active', 'bg-blue-600', 'text-white');
-                        btn.classList.add('border-gray-600', 'text-gray-300', 'hover:bg-gray-700');
-                    });
-                    button.classList.add('active', 'bg-blue-600', 'text-white');
-                    button.classList.remove('border-gray-600', 'text-gray-300', 'hover:bg-gray-700');
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    button.classList.add('active');
                     const currentLang = document.documentElement.lang;
                     renderSchedule(button.dataset.filter, currentLang);
                 });
