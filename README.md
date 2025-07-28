@@ -134,6 +134,12 @@
             background-color: transparent;
         }
 
+        /* PERBAIKAN: Menghilangkan garis bawah pada semua judul seksi */
+        section h2 {
+            border-bottom: none !important;
+            text-decoration: none !important;
+        }
+
         /* Faster pulsating animation for the mobile menu icon */
         .pulsating-menu {
             animation: pulsate 0.5s infinite ease-in-out;
