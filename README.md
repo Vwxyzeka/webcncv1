@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;900&display=swap" rel="stylesheet">
     
-    <link rel="icon" href="https://placehold.co/32x32/1a1a1a/FFFFFF?text=CNC" type="image/png" onerror="this.onerror=null;this.src='https://placehold.co/32x32';">
+    <link rel="icon" href="https://placehold.co/32x32/FF0000/FFFFFF?text=C" type="image/png" onerror="this.onerror=null;this.src='https://placehold.co/32x32';">
 
     <style>
         /* --- FONT & BACKGROUND --- */
@@ -26,6 +26,14 @@
             background-size: cover;
         }
 
+        /* --- BRAND COLORS --- */
+        .text-brand-red { color: #e53e3e; }
+        .text-brand-silver {
+            background: linear-gradient(145deg, #e0e0e0, #a0a0a0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
         /* --- PRELOADER --- */
         #preloader {
             position: fixed;
@@ -37,8 +45,9 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            flex-direction: column;
             z-index: 1000;
-            transition: opacity 0.7s ease-in-out, visibility 0.7s ease-in-out;
+            transition: opacity 0.8s ease-in-out, visibility 0.8s ease-in-out;
             opacity: 1;
             visibility: visible;
         }
@@ -46,29 +55,34 @@
             opacity: 0;
             visibility: hidden;
         }
-        .preloader-logo {
-            display: flex;
-            gap: 0.5rem;
-            perspective: 500px;
+        .preloader-content {
+            text-align: center;
+            animation: fadeIn 2s ease-in-out forwards;
         }
-        .preloader-logo span {
-            font-size: 4rem;
+        .preloader-logo-main {
+            font-size: 3rem;
             font-weight: 900;
-            color: #fff;
-            animation: flip 3s ease-in-out forwards;
-            transform-style: preserve-3d;
+            letter-spacing: 0.1em;
+        }
+        .preloader-tagline {
+            font-size: 1.25rem;
+            margin-top: 1rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #a0aec0; /* Cool Gray */
             opacity: 0;
+            animation: fadeInSlightlyUp 1.5s ease-in-out 1s forwards;
         }
-        .preloader-logo span:nth-child(1) { animation-delay: 0.2s; }
-        .preloader-logo span:nth-child(2) { animation-delay: 0.4s; }
-        .preloader-logo span:nth-child(3) { animation-delay: 0.6s; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.95); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        @keyframes fadeInSlightlyUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
-        @keyframes flip {
-            0% { transform: rotateY(180deg) scale(0.5); opacity: 0; }
-            40% { transform: rotateY(0deg) scale(1.1); opacity: 1; }
-            60% { transform: rotateY(0deg) scale(1); opacity: 1; }
-            100% { transform: scale(1); opacity: 1; }
-        }
 
         /* --- DYNAMIC EFFECTS --- */
         .aurora-background::before {
@@ -76,7 +90,7 @@
             position: fixed;
             top: 50%; left: 50%;
             width: 200vw; height: 200vh;
-            background: radial-gradient(circle, rgba(59, 130, 246, 0.06) 0%, rgba(10, 10, 10, 0) 45%);
+            background: radial-gradient(circle, rgba(229, 62, 62, 0.05) 0%, rgba(10, 10, 10, 0) 45%);
             transform: translate(-50%, -50%);
             animation: aurora 20s infinite linear;
             z-index: -2;
@@ -123,8 +137,8 @@
         .premium-card:hover {
             transform: perspective(1200px) rotateY(var(--rotate-y, 0)) rotateX(var(--rotate-x, 0)) scale3d(1.05, 1.05, 1.05);
             box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1),
-                        0 25px 50px -12px rgba(59, 130, 246, 0.25);
-            border-color: rgba(59, 130, 246, 0.5);
+                        0 25px 50px -12px rgba(229, 62, 62, 0.2);
+            border-color: rgba(229, 62, 62, 0.4);
         }
         
         .scroll-animate {
@@ -144,15 +158,15 @@
             background-position: center;
         }
         .cta-glow {
-            box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0 0 10px rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 25px rgba(229, 62, 62, 0.5), 0 0 10px rgba(229, 62, 62, 0.7);
             transition: all 0.3s ease;
         }
         .cta-glow:hover {
             transform: scale(1.05);
-            box-shadow: 0 0 35px rgba(59, 130, 246, 0.7), 0 0 15px rgba(59, 130, 246, 0.9);
+            box-shadow: 0 0 35px rgba(229, 62, 62, 0.7), 0 0 15px rgba(229, 62, 62, 0.9);
         }
         .recommended-card {
-            border-color: #3b82f6;
+            border-color: #e53e3e;
             transform: scale(1.05);
         }
         .aspect-9-16 { position: relative; padding-top: 177.77%; }
@@ -166,9 +180,9 @@
             transform: scale(1.1);
         }
         .lang-switcher .lang-option.active {
-            border: 2px solid #3b82f6;
+            border: 2px solid #e53e3e;
             transform: scale(1.1);
-            box-shadow: 0 0 10px rgba(59, 130, 246, 0.7);
+            box-shadow: 0 0 10px rgba(229, 62, 62, 0.7);
         }
         section h2 {
             border-bottom: none !important;
@@ -180,9 +194,9 @@
             border-radius: 50%;
         }
         @keyframes pulsate {
-            0% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(59, 130, 246, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(229, 62, 62, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(229, 62, 62, 0); }
         }
 
         /* --- SCHEDULE STYLES --- */
@@ -192,14 +206,14 @@
             background-color: rgba(255,255,255,0.05);
         }
         .filter-btn:hover {
-            background-color: rgba(59, 130, 246, 0.2);
-            border-color: rgba(59, 130, 246, 0.5);
+            background-color: rgba(229, 62, 62, 0.2);
+            border-color: rgba(229, 62, 62, 0.5);
         }
         .filter-btn.active {
-            background-color: #3b82f6;
+            background-color: #e53e3e;
             color: #ffffff;
-            border-color: #3b82f6;
-            box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+            border-color: #e53e3e;
+            box-shadow: 0 0 15px rgba(229, 62, 62, 0.5);
         }
         .schedule-item {
             transition: opacity 0.5s ease, transform 0.5s ease;
@@ -210,8 +224,12 @@
 
     <!-- Preloader -->
     <div id="preloader">
-        <div class="preloader-logo">
-            <span>C</span><span>N</span><span>C</span>
+        <div class="preloader-content">
+            <div class="preloader-logo-main">
+                <span class="text-brand-red">CNC</span>
+                <span class="text-brand-silver">FITNESS</span>
+            </div>
+            <p class="preloader-tagline">Define Your Prime</p>
         </div>
     </div>
 
@@ -220,8 +238,9 @@
         <div class="container mx-auto px-4 sm:px-6">
             <div class="flex justify-between items-center py-4">
                 <div class="flex-1 flex justify-start">
-                    <a href="#home">
-                        <img src="https://brandeps.com/logo-download/C/CNC-Fitness-logo-vector-01.svg" alt="CNC Fitness Logo" class="h-12 lg:h-14 w-auto">
+                    <a href="#home" class="text-2xl lg:text-3xl font-black tracking-wider">
+                        <span class="text-brand-red">CNC</span>
+                        <span class="text-brand-silver">FITNESS</span>
                     </a>
                 </div>
                 
@@ -281,7 +300,7 @@
                     CNC Fitness BSB menyediakan fasilitas premium, pelatih ahli, dan komunitas yang mendukung untuk membantu Anda meraih hasil nyata.
                 </p>
                 <div class="mt-10">
-                    <a href="#membership" class="bg-blue-600 text-white font-bold text-base sm:text-lg px-8 py-3 sm:px-10 sm:py-4 rounded-lg hover:bg-blue-500 inline-block cta-glow" data-lang-key="heroCTA">
+                    <a href="#membership" class="bg-red-600 text-white font-bold text-base sm:text-lg px-8 py-3 sm:px-10 sm:py-4 rounded-lg hover:bg-red-500 inline-block cta-glow" data-lang-key="heroCTA">
                         Lihat Paket Membership
                     </a>
                 </div>
@@ -297,7 +316,7 @@
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-8">
                     <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 100ms;">
-                        <div class="text-blue-400 mb-4">
+                        <div class="text-red-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
                               <path stroke-linecap="round" stroke-linejoin="round" d="M2 12h2m16 0h2M5 12h14" />
                               <path stroke-linecap="round" stroke-linejoin="round" d="M5 7v10h2V7H5zm12 0v10h2V7h-2z" />
@@ -307,21 +326,21 @@
                         <p class="text-gray-400" data-lang-key="feature1Desc">Akses ke peralatan fitness modern untuk latihan yang lebih efektif dan terukur.</p>
                     </div>
                     <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 200ms;">
-                        <div class="text-blue-400 mb-4">
+                        <div class="text-red-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="8.5" cy="7" r="4"></circle><polyline points="17 11 19 13 23 9"></polyline></svg>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature2Title">Pelatih Profesional</h3>
                         <p class="text-gray-400" data-lang-key="feature2Desc">Dapatkan panduan dari tim pelatih bersertifikasi untuk program latihan yang aman dan personal.</p>
                     </div>
                     <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 300ms;">
-                        <div class="text-blue-400 mb-4">
+                        <div class="text-red-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 13-2.5 2.5a4.24 4.24 0 0 1-6 0L7 13l-2.5 2.5a4.24 4.24 0 0 0 6 0L13 13l2.5-2.5a4.24 4.24 0 0 1 6 0L19 13l2.5-2.5a4.24 4.24 0 0 0-6 0L13 13"></path></svg>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature3Title">Kelas Beragam</h3>
                         <p class="text-gray-400" data-lang-key="feature3Desc">Jaga motivasi Anda dengan berbagai pilihan kelas, dari Yoga hingga HIIT yang intens.</p>
                     </div>
                     <div class="p-6 sm:p-8 premium-card scroll-animate" style="transition-delay: 400ms;">
-                        <div class="text-blue-400 mb-4">
+                        <div class="text-red-400 mb-4">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
                         </div>
                         <h3 class="text-xl font-bold text-white mb-2" data-lang-key="feature4Title">Fasilitas Premium</h3>
@@ -343,7 +362,7 @@
                         <img src="https://images.unsplash.com/photo-1548690312-e3b511d48c8e?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 1" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="trainer1Name">Andi Setiawan</h3>
-                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer1Spec">Kekuatan & Kondisi</p>
+                            <p class="text-red-400 font-semibold mt-1" data-lang-key="trainer1Spec">Kekuatan & Kondisi</p>
                             <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer1Desc">Ahli merancang program kekuatan untuk meningkatkan performa dan membentuk postur ideal.</p>
                         </div>
                     </div>
@@ -351,7 +370,7 @@
                         <img src="https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 2" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="trainer2Name">Citra Amelia</h3>
-                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer2Spec">Penurunan Berat Badan & Nutrisi</p>
+                            <p class="text-red-400 font-semibold mt-1" data-lang-key="trainer2Spec">Penurunan Berat Badan & Nutrisi</p>
                             <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer2Desc">Memadukan latihan efektif dengan panduan nutrisi untuk membantu Anda mencapai berat badan ideal.</p>
                         </div>
                     </div>
@@ -359,7 +378,7 @@
                         <img src="https://images.unsplash.com/photo-1594737625787-a8a121c44856?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 3" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="trainer3Name">David Lee</h3>
-                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer3Spec">Fungsional & Mobilitas</p>
+                            <p class="text-red-400 font-semibold mt-1" data-lang-key="trainer3Spec">Fungsional & Mobilitas</p>
                             <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer3Desc">Spesialis latihan fungsional untuk meningkatkan mobilitas dan kekuatan untuk aktivitas sehari-hari.</p>
                         </div>
                     </div>
@@ -367,7 +386,7 @@
                         <img src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=800&auto=format&fit=crop" alt="Pelatih Profesional CNC Fitness 4" class="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300" onerror="this.onerror=null;this.src='https://placehold.co/400x500';">
                         <div class="p-6">
                             <h3 class="text-2xl font-bold text-white" data-lang-key="trainer4Name">Sari Wulandari</h3>
-                            <p class="text-blue-400 font-semibold mt-1" data-lang-key="trainer4Spec">Yoga & Fleksibilitas</p>
+                            <p class="text-red-400 font-semibold mt-1" data-lang-key="trainer4Spec">Yoga & Fleksibilitas</p>
                             <p class="text-gray-400 mt-3 text-sm" data-lang-key="trainer4Desc">Membantu Anda menemukan ketenangan dan meningkatkan kelenturan tubuh melalui yoga.</p>
                         </div>
                     </div>
@@ -386,7 +405,7 @@
                     <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 100ms;">
                         <div class="flex-grow">
                             <div class="flex items-center mb-4">
-                                <img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=A" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 1" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
+                                <img src="https://placehold.co/64x64/e53e3e/FFFFFF?text=A" class="w-16 h-16 rounded-full object-cover border-2 border-red-500" alt="Foto Member 1" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
                                 <div class="ml-4">
                                     <h4 class="text-lg font-bold text-white" data-lang-key="testi1Name">Ahmad Prasetyo</h4>
                                     <div class="flex text-yellow-400 mt-1">
@@ -405,7 +424,7 @@
                     <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 200ms;">
                        <div class="flex-grow">
                             <div class="flex items-center mb-4">
-                                <img src="https://placehold.co/64x64/111827/FFFFFF?text=S" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 2" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
+                                <img src="https://placehold.co/64x64/111827/FFFFFF?text=S" class="w-16 h-16 rounded-full object-cover border-2 border-red-500" alt="Foto Member 2" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
                                 <div class="ml-4">
                                     <h4 class="text-lg font-bold text-white" data-lang-key="testi2Name">Siti Nurhaliza</h4>
                                     <div class="flex text-yellow-400 mt-1">
@@ -424,7 +443,7 @@
                     <div class="p-8 premium-card scroll-animate flex flex-col" style="transition-delay: 300ms;">
                         <div class="flex-grow">
                             <div class="flex items-center mb-4">
-                                <img src="https://placehold.co/64x64/3b82f6/FFFFFF?text=B" class="w-16 h-16 rounded-full object-cover border-2 border-blue-500" alt="Foto Member 3" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
+                                <img src="https://placehold.co/64x64/e53e3e/FFFFFF?text=B" class="w-16 h-16 rounded-full object-cover border-2 border-red-500" alt="Foto Member 3" onerror="this.onerror=null;this.src='https://placehold.co/64x64';">
                                 <div class="ml-4">
                                     <h4 class="text-lg font-bold text-white" data-lang-key="testi3Name">Budi Santoso</h4>
                                     <div class="flex text-yellow-400 mt-1">
@@ -470,11 +489,11 @@
                     <p class="mt-3 max-w-2xl mx-auto text-gray-400" data-lang-key="equipmentSubtitle">Peralatan modern dan lengkap untuk setiap kebutuhan latihan Anda.</p>
                 </div>
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
-                    <div class="group scroll-animate rounded-lg overflow-hidden"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Cardio+Line" alt="Cardio Line" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/e53e3e/FFFFFF?text=Cardio+Line" alt="Cardio Line" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
                     <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 100ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Dumbbell+Rack" alt="Dumbbell Rack" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 200ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Smith+Machine" alt="Smith Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 200ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/e53e3e/FFFFFF?text=Smith+Machine" alt="Smith Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
                     <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 300ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Functional+Area" alt="Functional Area" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
-                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 400ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/3b82f6/FFFFFF?text=Leg+Press+Machine" alt="Leg Press Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
+                    <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 400ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/e53e3e/FFFFFF?text=Leg+Press" alt="Leg Press Machine" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
                     <div class="group scroll-animate rounded-lg overflow-hidden" style="transition-delay: 500ms;"><img class="h-auto w-full object-cover" src="https://placehold.co/600x600/111827/FFFFFF?text=Cable+Crossover" alt="Cable Crossover" onerror="this.onerror=null;this.src='https://placehold.co/600x600';"></div>
                 </div>
             </div>
@@ -489,12 +508,12 @@
                 </div>
                 <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4">
                     <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 100ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+1" alt="Instagram Reel 1" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 200ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+2" alt="Instagram Reel 2" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 200ms;"><img src="https://placehold.co/360x640/e53e3e/FFFFFF?text=CNC+Reel+2" alt="Instagram Reel 2" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
                     <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 300ms;"><img src="https://placehold.co/360x640/111827/FFFFFF?text=CNC+Reel+3" alt="Instagram Reel 3" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 400ms;"><img src="https://placehold.co/360x640/3b82f6/FFFFFF?text=CNC+Reel+4" alt="Instagram Reel 4" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="group block rounded-lg overflow-hidden reel-item aspect-9-16 scroll-animate" style="transition-delay: 400ms;"><img src="https://placehold.co/360x640/e53e3e/FFFFFF?text=CNC+Reel+4" alt="Instagram Reel 4" class="object-cover transition-transform duration-300 group-hover:scale-110" onerror="this.onerror=null;this.src='https://placehold.co/360x640';"><div class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 group-hover:bg-opacity-40 transition-all duration-300"><svg class="w-16 h-16 text-white opacity-80 group-hover:opacity-100 group-hover:scale-110 transition-all duration-300" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM9.555 7.168A1 1 0 008 8v4a1 1 0 001.555.832l3-2a1 1 0 000-1.664l-3-2z" clip-rule="evenodd"></path></svg></div></a>
                 </div>
                  <div class="text-center mt-12 scroll-animate">
-                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="bg-blue-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-blue-500 transition-all duration-300 cta-glow" data-lang-key="reelsCTA">
+                    <a href="https://www.instagram.com/cncfitnessbsb/reels/" target="_blank" rel="noopener noreferrer" class="bg-red-600 text-white font-semibold px-8 py-3 rounded-lg hover:bg-red-500 transition-all duration-300 cta-glow" data-lang-key="reelsCTA">
                         Lihat Semua Reels
                     </a>
                 </div>
@@ -542,9 +561,9 @@
                             <p class="mt-1 text-gray-400" data-lang-key="plan1Subtitle">Fleksibel & Cepat</p>
                             <p class="mt-6 text-4xl font-bold text-white" data-lang-key="plan1Price">Rp 550.000</p>
                             <ul class="mt-6 space-y-3 text-gray-300">
-                                <li class="flex items-center" data-lang-key="planFeatureAllAccess"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Akses semua alat</li>
-                                <li class="flex items-center" data-lang-key="planFeatureClassAccess"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Akses semua kelas</li>
-                                <li class="flex items-center" data-lang-key="planFeatureTowel"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Handuk & Loker</li>
+                                <li class="flex items-center" data-lang-key="planFeatureAllAccess"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Akses semua alat</li>
+                                <li class="flex items-center" data-lang-key="planFeatureClassAccess"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Akses semua kelas</li>
+                                <li class="flex items-center" data-lang-key="planFeatureTowel"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Handuk & Loker</li>
                             </ul>
                         </div>
                         <a href="#" data-wa-key="plan1" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors" data-lang-key="planCTA">Pilih Paket</a>
@@ -552,18 +571,18 @@
 
                     <div class="w-full max-w-sm premium-card p-6 sm:p-8 relative recommended-card scroll-animate flex flex-col" style="transition-delay: 200ms;">
                         <div class="flex-grow">
-                            <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-blue-600 text-white text-xs font-bold px-4 py-1 rounded-full" data-lang-key="planPopular">Paling Populer</span>
+                            <span class="absolute top-0 -translate-y-1/2 left-1/2 -translate-x-1/2 bg-red-600 text-white text-xs font-bold px-4 py-1 rounded-full" data-lang-key="planPopular">Paling Populer</span>
                             <h3 class="text-xl font-semibold text-white" data-lang-key="plan2Title">6 Bulan</h3>
                             <p class="mt-1 text-gray-400" data-lang-key="plan2Subtitle">Komitmen & Hasil</p>
                             <p class="mt-6 text-4xl font-bold text-white" data-lang-key="plan2Price">Rp 2.750.000</p>
                             <p class="text-sm text-gray-400" data-lang-key="plan2Save">Hemat Rp 550.000</p>
                             <ul class="mt-6 space-y-3 text-gray-300">
-                                <li class="flex items-center" data-lang-key="plan2Feature1"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Semua di paket 1 Bulan</li>
-                                <li class="flex items-center font-bold" data-lang-key="plan2Feature2"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1x Sesi Personal Trainer</li>
-                                <li class="flex items-center font-bold" data-lang-key="plan2Feature3"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Analisa Komposisi Tubuh</li>
+                                <li class="flex items-center" data-lang-key="plan2Feature1"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Semua di paket 1 Bulan</li>
+                                <li class="flex items-center font-bold" data-lang-key="plan2Feature2"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>1x Sesi Personal Trainer</li>
+                                <li class="flex items-center font-bold" data-lang-key="plan2Feature3"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Analisa Komposisi Tubuh</li>
                             </ul>
                         </div>
-                        <a href="#" data-wa-key="plan2" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-blue-600 text-white font-semibold py-3 rounded-lg hover:bg-blue-500 transition-colors cta-glow" data-lang-key="planCTA">Pilih Paket</a>
+                        <a href="#" data-wa-key="plan2" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-red-600 text-white font-semibold py-3 rounded-lg hover:bg-red-500 transition-colors cta-glow" data-lang-key="planCTA">Pilih Paket</a>
                     </div>
 
                     <div class="w-full max-w-sm premium-card p-6 sm:p-8 scroll-animate flex flex-col" style="transition-delay: 300ms;">
@@ -573,9 +592,9 @@
                             <p class="mt-6 text-4xl font-bold text-white" data-lang-key="plan3Price">Rp 4.950.000</p>
                             <p class="text-sm text-gray-400" data-lang-key="plan3Save">Hemat Rp 1.650.000</p>
                             <ul class="mt-6 space-y-3 text-gray-300">
-                                <li class="flex items-center" data-lang-key="plan3Feature1"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Semua di paket 6 Bulan</li>
-                                <li class="flex items-center font-bold" data-lang-key="plan3Feature2"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Merchandise Eksklusif</li>
-                                <li class="flex items-center font-bold" data-lang-key="plan3Feature3"><svg class="w-5 h-5 text-blue-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Konsultasi Nutrisi</li>
+                                <li class="flex items-center" data-lang-key="plan3Feature1"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Semua di paket 6 Bulan</li>
+                                <li class="flex items-center font-bold" data-lang-key="plan3Feature2"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Merchandise Eksklusif</li>
+                                <li class="flex items-center font-bold" data-lang-key="plan3Feature3"><svg class="w-5 h-5 text-red-500 mr-2 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>Konsultasi Nutrisi</li>
                             </ul>
                         </div>
                         <a href="#" data-wa-key="plan3" target="_blank" rel="noopener noreferrer" class="mt-8 block w-full text-center bg-gray-700 text-white font-semibold py-3 rounded-lg hover:bg-gray-600 transition-colors" data-lang-key="planCTA">Pilih Paket</a>
@@ -585,11 +604,11 @@
         </section>
         
         <!-- CTA Trial Section -->
-        <section id="cta-trial" class="bg-blue-600/80">
+        <section id="cta-trial" class="bg-red-600/80">
             <div class="container mx-auto px-4 sm:px-6 py-16 text-center scroll-animate">
                 <h2 class="text-3xl font-bold text-white" data-lang-key="trialTitle">Siap Memulai Perjalanan Anda?</h2>
-                <p class="mt-2 text-blue-100 max-w-xl mx-auto" data-lang-key="trialSubtitle">Dapatkan <span class="font-bold">Free Trial 1 Hari</span> untuk merasakan sendiri pengalaman premium di CNC Fitness. Klaim sekarang!</p>
-                <a href="#" data-wa-key="trial" target="_blank" rel="noopener noreferrer" class="mt-6 inline-block bg-white text-blue-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors cta-glow" data-lang-key="trialCTA">Klaim Free Trial via WhatsApp</a>
+                <p class="mt-2 text-red-100 max-w-xl mx-auto" data-lang-key="trialSubtitle">Dapatkan <span class="font-bold">Free Trial 1 Hari</span> untuk merasakan sendiri pengalaman premium di CNC Fitness. Klaim sekarang!</p>
+                <a href="#" data-wa-key="trial" target="_blank" rel="noopener noreferrer" class="mt-6 inline-block bg-white text-red-600 font-bold px-8 py-3 rounded-lg hover:bg-gray-200 transition-colors cta-glow" data-lang-key="trialCTA">Klaim Free Trial via WhatsApp</a>
             </div>
         </section>
 
@@ -601,11 +620,11 @@
                     <p class="mt-4 text-gray-400" data-lang-key="locationSubtitle">Lokasi kami yang strategis di Balikpapan Superblock memudahkan Anda untuk berolahraga kapan saja.</p>
                     <div class="mt-6 space-y-4">
                         <div class="flex items-start">
-                            <svg class="w-6 h-6 text-blue-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                            <svg class="w-6 h-6 text-red-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                             <span data-lang-key="locationAddress">Balikpapan Superblock, Pentacity Shopping Venue, Lt. 2<br>Jl. Jenderal Sudirman No. 47, Balikpapan, Kalimantan Timur</span>
                         </div>
                         <div class="flex items-center">
-                            <svg class="w-6 h-6 text-blue-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                            <svg class="w-6 h-6 text-red-500 mr-3 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
                             <span>(0542) 8527805</span>
                         </div>
                         <div class="flex items-center">
@@ -613,7 +632,7 @@
                             <a href="https://api.whatsapp.com/send?phone=6282191562827" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors" data-lang-key="locationWhatsapp">0821-9156-2827</a>
                         </div>
                         <div class="flex items-start">
-                            <svg class="w-6 h-6 text-blue-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                            <svg class="w-6 h-6 text-red-500 mr-3 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
                             <span data-lang-key="locationHours">Senin - Sabtu: 06:00 - 22:00 | Minggu: 08:00 - 20:00</span>
                         </div>
                     </div>
@@ -637,11 +656,9 @@
                         <path fill="#fff" d="M12 7.162A4.838 4.838 0 1016.838 12 4.838 4.838 0 0012 7.162zm0 8.004A3.166 3.166 0 1115.166 12 3.166 3.166 0 0112 15.166zM16.949 5.61a1.44 1.44 0 101.44 1.44 1.44 1.44 0 00-1.44-1.44z"/>
                     </svg>
                 </a>
-                <a href="https://www.tiktok.com/@cncfitnessbsb" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity" aria-label="TikTok">
-                    <svg class="h-7 w-7" viewBox="0 0 24 24">
-                        <path fill="#010101" d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
-                        <path fill="#fff" d="M12.275,12.07c-.01,4.02,.01,8.04-.02,12.07-.01-1.79-.05-3.57-.07-5.36-.01-.39-.22-.73-.41-1.06-.58-.95-1.65-1.6-2.77-1.61-1.68-.15-3.26,1.23-3.5,2.87,0,.54-.07,1.1,.14,1.61,.25,.71,.73,1.34,1.36,1.75,.87,.6,2.03,.69,3.02,.37v-4.44Z"/>
-                        <path fill="#ff0050" d="M12.275,0c.01,4.02,.03,8.04,.02,12.07v-4.44c-2.17-.41-4.49,.28-6.15,1.72-1.46,1.24-2.4,3.06-2.58,4.96.02,.49,.01,.99,.01,1.49,.21,2.34,1.63,4.52,3.65,5.71,1.22,.72,2.65,1.11,4.08,1.03,2.33-.04,4.6-1.29,5.91-3.21,.81-1.15,1.27-2.54,1.35-3.94,.03-2.91-.01-5.83,.02-8.75,.52,.34,1.05,.67,1.62,.93,1.31,.62,2.76,.92,4.2,.97V5.99c-1.54-.17-3.12-.68-4.24-1.79-1.12-1.08-1.67-2.64-1.75-4.17Z"/>
+                <a href="https://www.tiktok.com/@cncfitnessbsb" target="_blank" rel="noopener noreferrer" class="text-gray-400 hover:text-white transition-colors" aria-label="TikTok">
+                    <svg class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/>
                     </svg>
                 </a>
                 <a href="https://www.youtube.com/results?search_query=cncfitnessbsb" target="_blank" rel="noopener noreferrer" class="hover:opacity-80 transition-opacity" aria-label="YouTube">
@@ -656,7 +673,7 @@
 
     <!-- Mobile CTA Bar -->
     <div class="lg:hidden fixed bottom-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm p-3 border-t border-gray-700 z-40" style="transform: translateZ(0);">
-        <a href="#membership" class="w-full block text-center bg-blue-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-blue-700 transition-all duration-300 cta-glow" data-lang-key="joinNow">
+        <a href="#membership" class="w-full block text-center bg-red-600 text-white font-semibold px-6 py-3 rounded-lg hover:bg-red-700 transition-all duration-300 cta-glow" data-lang-key="joinNow">
             Gabung Sekarang
         </a>
     </div>
@@ -665,10 +682,10 @@
         document.addEventListener('DOMContentLoaded', () => {
             // --- PRELOADER SCRIPT ---
             const preloader = document.getElementById('preloader');
-            // Set a timeout to hide the preloader after 3 seconds
+            // Set a timeout to hide the preloader after 3.5 seconds
             setTimeout(() => {
                 preloader.classList.add('hidden');
-            }, 3000);
+            }, 3500);
 
             // --- LANGUAGE & CONTENT DATA ---
             const langData = {
@@ -935,7 +952,7 @@
                         <div>
                             <div class="flex justify-between items-start mb-4">
                                 <div>
-                                    <p class="text-xs uppercase tracking-widest text-blue-400 font-semibold">${dayName}</p>
+                                    <p class="text-xs uppercase tracking-widest text-red-400 font-semibold">${dayName}</p>
                                     <h4 class="text-xl font-bold text-white mt-1">${item.name}</h4>
                                 </div>
                                 <p class="text-xl font-bold text-white flex-shrink-0">${item.time}</p>
@@ -945,7 +962,7 @@
                                 <span class="text-xs font-bold uppercase py-1 px-3 rounded-full bg-gray-700 text-gray-200">${item.type}</span>
                             </div>
                         </div>
-                        <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="mt-6 block w-full text-center bg-blue-600 text-white font-semibold py-2.5 rounded-lg hover:bg-blue-500 transition-colors cta-glow">
+                        <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="mt-6 block w-full text-center bg-red-600 text-white font-semibold py-2.5 rounded-lg hover:bg-red-500 transition-colors cta-glow">
                             ${registerText}
                         </a>
                     `;
